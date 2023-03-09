@@ -82,8 +82,7 @@ class _MessagePageState extends State<MessagePage> {
                       return;
                     }
                     print('用户点击了---$index]');
-                    print('messageList:' +
-                        jpushProvider.messageList(index).toString());
+                    print('messageList: ${jpushProvider.messageList(index).toString()}');
 
                     // 跳转到消息详情页面
                     Navigator.push(

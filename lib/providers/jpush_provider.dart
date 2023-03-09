@@ -5,7 +5,7 @@ import 'package:flutter_app_learn/models/user_message.dart';
 import 'package:flutter_app_learn/utils/db_util.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 
 ///
@@ -54,51 +54,42 @@ class JPushProvider extends ChangeNotifier {
 
 
   // notification plugin
-  final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
+  //final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
 
   // 获取安卓通知
-  FlutterLocalNotificationsPlugin get plugin => _plugin;
+  //FlutterLocalNotificationsPlugin get plugin => _plugin;
 
   ///
   /// 初始化plugin
   ///
-  void initNotificationPlugin() {
-    var android = const AndroidInitializationSettings("");
-    var ios = const DarwinInitializationSettings();
-    _plugin.initialize(InitializationSettings(android: android, iOS: ios));
-  }
-
-  ///
-  /// 监听点击通知
-  ///
-  // Future<void> _onSlectNotification(String payload) async {
-  //   if (payload != null) {
-  //     print('notification payload: ' + payload);
-  //   }
+  // void initNotificationPlugin() {
+  //   var android = const AndroidInitializationSettings("");
+  //   var ios = const DarwinInitializationSettings();
+  //   _plugin.initialize(InitializationSettings(android: android, iOS: ios));
   // }
 
   ///
   /// 显示通知
   ///
-  Future<void> _showNotification(String title, String body, {
-        int id = 0,
-        String payload = 'default payload'
-      }) async {
-    // Android通知设置
-    var androidDetails = const AndroidNotificationDetails(
-        'BJUIS_MESSAGE_CHANNEL', '推送自定义消息',
-        channelDescription: '向用户通知收到的自定义消息',
-        priority: Priority.high,
-        importance: Importance.max,
-        color: Colors.orangeAccent
-    );
-    var iosDetails = DarwinNotificationDetails();
-    //
-    var details = NotificationDetails(android: androidDetails, iOS: iosDetails);
-
-    // 插件展示通知
-    await plugin.show(id, title, body, details);
-  }
+  // Future<void> _showNotification(String title, String body, {
+  //       int id = 0,
+  //       String payload = 'default payload'
+  //     }) async {
+  //   // Android通知设置
+  //   var androidDetails = const AndroidNotificationDetails(
+  //       'BJUIS_MESSAGE_CHANNEL', '推送自定义消息',
+  //       channelDescription: '向用户通知收到的自定义消息',
+  //       priority: Priority.high,
+  //       importance: Importance.max,
+  //       color: Colors.orangeAccent
+  //   );
+  //   var iosDetails = DarwinNotificationDetails();
+  //   //
+  //   var details = NotificationDetails(android: androidDetails, iOS: iosDetails);
+  //
+  //   // 插件展示通知
+  //   await plugin.show(id, title, body, details);
+  // }
 
 
   ///
@@ -206,7 +197,7 @@ class JPushProvider extends ChangeNotifier {
 
         // 执行插入操作
         bool result = await DBUtil.insertMessage(messageMap);
-        //
+
         // 统计消息的数量
         //  SpUtil.putStringList(BJUConstants.loginUserMobile, [0,1,1,1]);
         print('执行通知后，用户消息添加数据库中的结果：result=' + result.toString());
@@ -229,7 +220,7 @@ class JPushProvider extends ChangeNotifier {
         ///
 
 
-        await _showNotification("收到信息了", "测试定向信息推送");
+        // await _showNotification("收到信息了", "测试定向信息推送");
 
 
         print("flutter 自定义消息: $message['extras']");
@@ -244,7 +235,7 @@ class JPushProvider extends ChangeNotifier {
         }
 
         // 调用本地通知
-        await _showNotification(userMessage.title, userMessage.content);
+        // await _showNotification(userMessage.title, userMessage.content);
 
         print('解析的信息为：$userMessage');
         // 添加

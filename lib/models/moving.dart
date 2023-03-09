@@ -16,10 +16,15 @@ import 'package:flutter_app_learn/pages/details/moving_details_page.dart';
 /// 2020/2/23 22:06
 ///
 class Moving {
+  //
   int movingAuthorId;
+  //
   String movingAuthorAvatar;
+  //
   String movingAuthorName;
+  //
   String movingAuthorPhone;
+  //
   String movingContent;
 
   ///
@@ -46,8 +51,8 @@ class Moving {
   Moving({
     this.movingAuthorId = -1,
     this.movingAuthorAvatar = "http://www.devio.org/img/avatar.png",
-    this.movingAuthorName = "芒果A",
-    this.movingAuthorPhone = "no phone",
+    this.movingAuthorName = "movingAuthorName",
+    this.movingAuthorPhone = "movingAuthorPhone",
     this.movingContent = """今天天气很棒，晴空万里！飞机划过天空留下了一条优美的掠影，仿佛在
         向我们示意它要去何方？希望疫情快点结束，我从未向现在这样渴望上学过。中国加油，武汉加油！""",
     this.movingId = -1,
@@ -56,7 +61,7 @@ class Moving {
       "http://www.devio.org/img/avatar.png",
       "http://www.devio.org/img/avatar.png"
      ],
-    this.movingType = "unknown type",
+    this.movingType = "movingType",
     this.movingTopics = const ['女神','小仙女','男神','二次元','小姐姐','小哥哥'],
     this.movingLike = -1,
     this.movingLikeUsers = const [],
@@ -110,7 +115,7 @@ class Moving {
      ];
    }
    //
-   ResponseData resData = await BjuHttp.get(
+   var resData = await BjuHttp.get(
        index == 0 ? API.newMoving : API.hotMoving
    ).then((onValue) =>
        ResponseData.fromJson(onValue.data)
@@ -139,7 +144,7 @@ class Moving {
 
     // 获取当前点击的动态ID
     if(moving == null) return;
-
+    //
     final int movingId = moving.movingId;
     if(movingId == 0){
       showToast('动态信息有误！');

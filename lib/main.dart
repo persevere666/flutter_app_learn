@@ -21,10 +21,10 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  myAppState createState() => myAppState();
+  State<MyApp> createState() => MyAppState();
 }
 
-class myAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
 
   //initialization
   @override
@@ -50,7 +50,7 @@ class myAppState extends State<MyApp> {
     //how it check if the user login
     buildProvider<LoginProvider>(LoginProvider()),
     buildProvider<JPushProvider>(JPushProvider()
-      ..initNotificationPlugin()
+      //..initNotificationPlugin()
       ..initJPush()
       ..setUpJPush()
     )
@@ -68,8 +68,10 @@ class myAppState extends State<MyApp> {
                   title: bjuAppSettingsProvider.appTitle,
                   theme: bjuAppSettingsProvider.bjuThemeData,
                   debugShowCheckedModeBanner: false,
-                  //home: const MyHomePage(title: 'Flutter Demo Home Page'),
-                  home: const MainPage(),
+                  home: const Scaffold(
+                      body: MainPage()
+                      //body:Text("xxxxxxxxxxxxxxxxxxxxxxx")
+                  ),
                 )
             );
           }

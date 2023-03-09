@@ -26,27 +26,22 @@ class User {
   /// 专业名称
   String specialtyName;
 
-  User(
-      {this.userId = -1,
-      this.roleId = -1,
-      this.userAvatar = "",
-      this.userNickname = "",
-      this.userMobile = "",
-      this.userBorth = "",
-      this.userAddress = "",
-      this.userHobby = "",
-      this.userMotto = "",
-      this.facultyId = -1,
-      this.specialtyId = -1,
-      this.facultyName = "",
-      this.specialtyName = ""});
+  User({
+    this.userId = -1,
+    this.roleId = -1,
+    this.userAvatar = "",
+    this.userNickname = "",
+    this.userMobile = "",
+    this.userBorth = "",
+    this.userAddress = "",
+    this.userHobby = "",
+    this.userMotto = "",
+    this.facultyId = -1,
+    this.specialtyId = -1,
+    this.facultyName = "",
+    this.specialtyName = ""
+  });
 
-  // ///
-  // /// 创建用户登录模型
-  // ///
-  // factory User.createLoginUser(String loginMoblie, String loginPwd){
-  //   return User(userMobile: loginMoblie, userPwd: loginPwd);
-  // }
 
   @override
   String toString() {

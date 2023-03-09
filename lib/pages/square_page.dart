@@ -107,7 +107,9 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                 ),
                 centerTitle:true,
                 bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(ScreenUtil().setHeight(89)),
+                  preferredSize: Size.fromHeight(
+                      ScreenUtil().setHeight(89)
+                  ),
                   child: TabBar(
                     indicatorColor:Colors.white,
                     tabs: [

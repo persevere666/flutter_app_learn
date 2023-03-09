@@ -36,17 +36,21 @@ class BjuHttp {
     // );
 
     // 请求拦截器设置
-    dio.interceptors.add(InterceptorsWrapper(
-        onRequest: (options, handler) async {
-          return handler.next(options);
-        }, onResponse: (response, handler) async {
-          // Do something with response data
-          return handler.next(response);
-        }, onError: (error, handler) async {
-          // Do something with response error
-          return handler.next(error);
-        }
-    ));
+    dio.interceptors.add(
+        InterceptorsWrapper(
+            onRequest: (options, handler) async {
+              return handler.next(options);
+            },
+            onResponse: (response, handler) async {
+              // Do something with response data
+              return handler.next(response);
+            },
+            onError: (error, handler) async {
+              // Do something with response error
+              return handler.next(error);
+            }
+        )
+    );
   }
 
   /// 设置访问Token

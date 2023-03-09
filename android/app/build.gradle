@@ -61,6 +61,7 @@ android {
         //
         manifestPlaceholders = [
                 applicationName : "android.app.Application",
+                //applicationName : applicationId,
                 JPUSH_PKGNAME : "com.example.flutter_app_learn",
                 JPUSH_APPKEY : "17e044714e8af121639ffc8d", // NOTE: JPush 上注册的包名对应的 Appkey.
                 JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.

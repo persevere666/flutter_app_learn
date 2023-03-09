@@ -1,6 +1,44 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_app_learn">
-   <application
+
+    <!--极光推送  begin -->
+    <permission
+            android:name="${applicationId}.permission.JPUSH_MESSAGE"
+            android:protectionLevel="signature" >
+    </permission>
+    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
+
+    <permission
+            android:name="${applicationId}.permission.JOPERATE_MESSAGE"
+            android:protectionLevel="signature">
+    </permission>
+    <uses-permission android:name="${applicationId}.permission.JOPERATE_MESSAGE" />
+    <!--极光推送  end -->
+
+    <!-- 其他设置 begin -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 适配Android13，弹出通知必须权限-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <!-- Optional. Required for location feature -->
+    <!-- 为了提高sdk识别唯一用户的能力，保证消息推送的精准送达，建议集成以下权限（可选）-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 如您需要接入地理围栏业务，建议集成以下权限（可选）-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <!-- 如您需要对应设备通知相关的能力，建议集成以下权限（可选）-->
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" /><!-- 华为角标 -->
+    <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON" /><!-- VIVO角标权限 -->
+    <uses-permission android:name="com.hihonor.android.launcher.permission.CHANGE_BADGE" /><!--honor 角标-->
+    <uses-permission android:name="android.permission.VIBRATE" /><!--振动器权限，JPUSH支持通知开启振动功能，小米推送必须-->
+
+    <application
         android:label="flutter_app_learn"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

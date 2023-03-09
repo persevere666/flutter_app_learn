@@ -31,15 +31,12 @@ class MovingDetailsPage extends StatefulWidget {
   const MovingDetailsPage(this._movingId,{Key? key}) : super(key: key);
 
   @override
-  State<MovingDetailsPage> createState() => _MovingDetailsPageState(_movingId);
+  State<MovingDetailsPage> createState() => _MovingDetailsPageState();
 }
 
 class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindingObserver{
-
-  _MovingDetailsPageState(this._movingId);
-
   /// 动态ID
-  final int _movingId;
+  late final int _movingId;
 
   /// 页面的key
   final GlobalKey _movingDetailsKey = GlobalKey();
@@ -81,11 +78,11 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
   void initState() {
     super.initState();
     // 监听自己
+    _movingId = widget._movingId;
+    //
     WidgetsBinding.instance.addObserver(this);
-
     // 初始化
     _commentTextController.addListener(_commentListener);
-
     // 获取用户动态详情信息
     _getMovingDetailsById();
 
@@ -179,7 +176,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
       });
       return;
     }else {
-      // 请求服务器，获取动态的详情信息
+      //根据此条动态的_movingId，请求服务器，获取动态的详情信息
       final resData = await BjuHttp.get(
           API.movingDetailsById + _movingId.toString()
       ).then((onValue) =>
@@ -210,18 +207,19 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
   Widget _movingContextLayout(){
 
     // 获取登录的用户信息
-    final User user = Provider.of<LoginProvider>(context, listen: false).loginUser;
+    final User? user = Provider.of<LoginProvider>(context, listen: false).loginUser;
 
     return ListView(
         shrinkWrap: true,
         // mainAxisSize: MainAxisSize.max,
         // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          //movingAuthorName and time
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              // 昵称
+              // movingAuthorName
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 10, 0, 5),
                 child: Text(
@@ -232,9 +230,10 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                       wordSpacing: 2,
                       // height: 1.5,
                       color: Colors.lightBlue,
-                    )),
+                    )
+                ),
               ),
-              // 时间
+              // movingCreateTime
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 10, 0, 5),
                 child: Text(
@@ -250,8 +249,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
               ),
             ],
           ),
-
-          // 动态内容
+          // movingContent
           Card(
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -271,13 +269,13 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                 ),
               )
           ),
-          // 图片信息
-          (_movingDetails.movingImages != null && _movingDetails.movingImages.length > 0)
-              ?  Padding(
-            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+          // movingImages 图片信息
+          //(_movingDetails.movingImages != null && _movingDetails.movingImages.length > 0)
+          _movingDetails.movingImages.isNotEmpty ?  Padding(
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: GridView.count(
               shrinkWrap: true,
-              padding: EdgeInsets.all(2), // 内边距
+              padding: const EdgeInsets.all(2), // 内边距
               crossAxisCount: 3, // 列
               mainAxisSpacing: 2, // 纵向间距
               crossAxisSpacing: 2, // 水平间距
@@ -290,31 +288,34 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                   fit: BoxFit.fill,
                 ),
               ) ).toList(),
-            ),)
-              : SizedBox(),
-
-          // 动态类型及标签
+            ),
+          ) : const SizedBox(),
+          // movingType and movingTopics 动态类型及标签
           Padding(
-            padding: EdgeInsets.fromLTRB(5, 8, 5, 0),
+            padding: const EdgeInsets.fromLTRB(5, 8, 5, 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Text(_movingDetails.movingType??'错误墙',style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.lightBlue[600],
-                    fontWeight: FontWeight.w500,
-                  ),),
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    _movingDetails.movingType??'错误墙',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.lightBlue[600],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.all(5),
-                    child: _movingDetails.movingTopics == null ? const Text("没有标签信息！") : Wrap(
+                    padding: const EdgeInsets.all(5),
+                    child: _movingDetails.movingTopics.isEmpty ? const Text("没有标签信息！") : Wrap(
                       spacing: 1,
                       runAlignment: WrapAlignment.center,
+
                       children: _movingDetails.movingTopics.map((topic){
                         return ChoiceChip(
                           // avatar: Icon(FontAwesomeIcons.heart),
@@ -335,56 +336,39 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
               ],
             ),
           ),
-          Divider(),
+          const Divider(),
           // 操作
           Padding(
-            padding: EdgeInsets.fromLTRB(5, 0, 5, 8),
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 8),
             child: Row(
               mainAxisSize:MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-
-                // 浏览量
+                // 浏览量, movingBrowse
                 GestureDetector(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 8, 5),
-                        child: Icon(FontAwesomeIcons.eye, color: Colors.lightBlue[400],),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 8, 5),
+                        child: Icon(
+                          FontAwesomeIcons.eye,
+                          color: Colors.lightBlue[400],
+                        ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Text((_movingDetails.movingBrowse??0).toString()),
                       ),
                     ],
                   ),
                   onTap: (){
-                    print('浏览');
-
+                    showToast('浏览');
                   },
                 ),
-
                 // 点赞
                 GestureDetector(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 8, 5),
-                        child: Icon(FontAwesomeIcons.solidThumbsUp,
-                          color: _movingDetails.movingLikeUsers?.contains(user?.userId.toString()??0)??false
-                              ? Colors.lightBlue[400] : Colors.black38,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: Text(_movingDetails.movingLike?.toString()??'0'),
-                      ),
-                    ],
-                  ),
                   onTap: _movingDetails.movingLikeUsers?.contains(user?.userId.toString()??0)??false ? null : () async {
                     // print('用户的点赞用户列表数据为: ');
                     // print((_movingDetails.movingLikeUsers??[]));
@@ -408,19 +392,22 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                       "likeUserAvatar" : user.userAvatar
                     };
                     // 请求服务器刷新数据
-                    ResponseData resData = await BjuHttp.put(API.updateMovingLikeData,
+                    ResponseData resData = await BjuHttp.put(
+                        API.updateMovingLikeData,
                         params: paramsMap
-                    ).then((onValue) => ResponseData.fromJson(onValue.data))
-                        .catchError((onError){
-                      print('用户点赞请求异常！');
-                      print(onError);
-                      showToast('请求服务器异常');
-                      //return;
+                    ).then((onValue) =>
+                        ResponseData.fromJson(onValue.data)
+                    ).catchError((onError){
+                      showToast('请求服务器异常, error=$onError');
+                      //
+                      return ResponseData();
                     });
-                    if(resData == null){
+                    //
+                    if(resData.statusCode== -1){
                       showToast('网络错误！');
                       return;
                     }
+                    //
                     if(resData.statusCode == 0){
                       if(!mounted) return;
                       setState(() {
@@ -436,6 +423,24 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                     showToast(resData.message);
 
                   },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 5, 8, 5),
+                        child: Icon(
+                          FontAwesomeIcons.solidThumbsUp,
+                          color: _movingDetails.movingLikeUsers?.contains(user?.userId.toString()??0)??false
+                              ? Colors.lightBlue[400] : Colors.black38,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        child: Text(_movingDetails.movingLike?.toString()??'0'),
+                      ),
+                    ],
+                  ),
                 ),
 
                 // 评论
@@ -445,17 +450,20 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 8, 5),
-                        child: Icon(FontAwesomeIcons.commentDots, color: (_movingDetails.commentReplyList?.length??0) > 0 ? Colors.lightBlue[400] : Colors.black38,),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 8, 5),
+                        child: Icon(
+                          FontAwesomeIcons.commentDots,
+                          color: (_movingDetails.commentReplyList?.length??0) > 0 ?
+                          Colors.lightBlue[400] : Colors.black38,
+                        ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Text(_movingDetails.commentReplyList?.length?.toString()??'0'),
                       ),
                     ],
                   ),
                   onTap: (){
-                    print('评论');
                     // 用户登录与否
                     if(user == null){
                       showToast('请先登录！');
@@ -478,7 +486,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.fromLTRB(10, 8, 0, 8),
+                  padding: const EdgeInsets.fromLTRB(10, 8, 0, 8),
                   child: Text('全部评论如下', style: TextStyle(
                     fontSize: 16,
                     wordSpacing: 4,
@@ -767,14 +775,14 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
   Widget _buildBottomCommentArea(){
 
     // 获取登录用户信息
-    final User user = Provider.of<LoginProvider>(context,listen: false).loginUser;
+    final User? user = Provider.of<LoginProvider>(context,listen: false).loginUser;
 
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 50,
       decoration: BoxDecoration(
         color: Colors.grey[100],
-        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -784,7 +792,18 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
           Expanded(
             flex: 6,
             child: GestureDetector(
-              child: Padding(
+              onTap: (){
+                // 用户登录与否
+                if(user == null){
+                  showToast('请先登录！');
+                  return;
+                }
+                // 获取当前上下文
+                final BuildContext currentContext = _movingDetailsKey?.currentContext??context;;
+                // 弹出区域
+                _showCommentWindow(currentContext,user);
+              },
+              child: const Padding(
                 padding: EdgeInsets.fromLTRB(10, 5, 0, 5),
                 child: Text('留下你精彩的评论...', style: TextStyle(
                   fontSize: 16,
@@ -793,25 +812,13 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                   color: Colors.lightBlue,
                 ),),
               ),
-              onTap: (){
-
-                // 用户登录与否
-                /*  if(user == null){
-                      showToast('请先登录！');
-                      return;
-                  } */
-                // 获取当前上下文
-                final BuildContext currentContext = _movingDetailsKey?.currentContext??context;;
-                // 弹出区域
-                _showCommentWindow(currentContext,user);
-              },
             ),
           ),
           // @按钮
           Expanded(
               flex: 1,
               child: GestureDetector(
-                child: Icon(FontAwesomeIcons.at),
+                child: const Icon(FontAwesomeIcons.at),
                 onTap: () async {
                   // 用户登录与否
                   if(user == null){
@@ -843,12 +850,11 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
     );
   }
 
-
   /// 评论区布局
   List<Widget> _commentLayout(List<CommentVO> commentList){
 
     // 获取登录的用户
-    final User user = Provider.of<LoginProvider>(context).loginUser;
+    final User? user = Provider.of<LoginProvider>(context).loginUser;
 
     // 定义字体样式
     // 昵称
@@ -1138,8 +1144,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
               return;
             }
             );
-
-        }).toList();
+    }).toList();
   }
 
 
@@ -1181,8 +1186,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
           ),
           // 评论列表布局
           //_movingDetails.commentReplyList == null ||
-          _movingDetails.commentReplyList.isEmpty ?
-          const SliverToBoxAdapter(
+          _movingDetails.commentReplyList.isEmpty ? const SliverToBoxAdapter(
             child: Center(
                 child: Padding(
                   padding: EdgeInsets.only(top: 20),

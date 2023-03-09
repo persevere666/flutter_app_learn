@@ -11,21 +11,22 @@ class MovingDetails {
   String movingAuthorName;
   String movingAuthorPhone;
   String movingContent;
+
   int movingId;
+
   /// 图片组：英文‘,’分割
   List movingImages;
   String movingType;
   /// 话题组：英文‘,’分割
   List movingTopics;
   int movingLike;
-  /// 点赞用户组：英文‘,’分割
-  List<String> movingLikeUsers;
   int movingBrowse;
   String movingCreateTime;
 
+  /// 此条动态，点赞用户组：英文‘,’分割,
+  List<String> movingLikeUsers;
   // 评论列表
   List<CommentVO> commentReplyList;
-
 
   MovingDetails({
     this.movingAuthorId = -1,
@@ -43,7 +44,15 @@ class MovingDetails {
     this.movingCreateTime = "",
     this.commentReplyList = const []
   });
-
+  //
+  bool hasCommentReplay(){
+    if(commentReplyList==null || commentReplyList.isEmpty){
+      return false;
+    }else{
+      return false;
+    }
+  }
+  //
   factory MovingDetails.fromJson(Map<String, dynamic> json) => MovingDetails(
       movingAuthorId: int.parse(json['movingAuthorId'].toString()),
       // movingAuthorAvatar: json['movingAuthorAvatar'],
@@ -68,6 +77,7 @@ class MovingDetails {
       ).toList()
   );
 
+
   @override
   String toString() {
     return '{movingAuthorId: ' + this.movingAuthorId.toString()
@@ -86,6 +96,9 @@ class MovingDetails {
         +', commentReplyList:' + this.commentReplyList.toString() + '}';
   }
   //////////////////////////////////////////////////////////////////////////////
+  //
+
+  //////////////////////////////////////////////////////////////////////////////
   static MovingDetails generateMovingDetailsForTest(){
     MovingDetails movingDetails = MovingDetails();
     movingDetails.movingAuthorId = Random().nextInt(10000);
@@ -99,7 +112,10 @@ class MovingDetails {
       "https://img2.woyaogexing.com/2018/08/21/83354d48f55d40768656cdbf83801a5a!400x400.jpeg"
     ];
     movingDetails.movingType = "movingType";
-    movingDetails.movingTopics = const ["黑", "白", "红"];
+    movingDetails.movingTopics = const [
+      "黑sssssss", "白sssssssss", "红ssssssss", "伤心病狂", "白眼狼", "狗急跳墙",
+      "心心相惜", "指鹿为马","国士无双","草木皆兵","此心光明"
+    ];
     movingDetails.movingLike = Random().nextInt(1000);
     movingDetails.movingLikeUsers = const ["张三", "李四", "王五"];
     movingDetails.movingBrowse = Random().nextInt(10000);

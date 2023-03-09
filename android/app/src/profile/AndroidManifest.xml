@@ -5,4 +5,18 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!--极光推送  begin -->
+
+    <permission android:name="com.example.flutter_app_learn.permission.JPUSH_MESSAGE"
+                android:protectionLevel="signature" >
+    </permission>
+    <uses-permission android:name="com.example.flutter_app_learn.permission.JPUSH_MESSAGE" />
+
+    <permission
+            android:name="com.example.flutter_app_learn.permission.JOPERATE_MESSAGE"
+            android:protectionLevel="signature">
+    </permission>
+    <uses-permission android:name="com.example.flutter_app_learn.permission.JOPERATE_MESSAGE" />
+
+    <!--极光推送  end -->
 </manifest>
