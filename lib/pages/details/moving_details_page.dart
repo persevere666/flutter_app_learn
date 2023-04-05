@@ -42,7 +42,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
   final GlobalKey _movingDetailsKey = GlobalKey();
 
   /// 评论框是否弹出
-  bool _isShowCommentSheet = false;
+  //bool _isShowCommentSheet = false;
 
   /// 动态详情
   MovingDetails _movingDetails = MovingDetails();
@@ -59,7 +59,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
   final FocusNode _commentFocusNode = FocusNode();
 
   /// 评论内容
-  String _commentContent = '';
+  //String _commentContent = '';
 
   /// 评论内容为空
   bool _commentContentIsEmpty = true;
@@ -97,28 +97,28 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
   void didChangeMetrics() {
     super.didChangeMetrics();
     // 监听键盘是否收起
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      print('监听页面底部的弹出高度，上下文对象：' + context.toString());
-      // 上下文不存在
-      if(context == null) return;
-      // 键盘弹起的高度
-      final double bottom =  MediaQuery.of(context).viewInsets.bottom;
-      print('监听页面底部的弹出高度' + bottom.toString());
-      if(!(bottom > 0) && _isShowCommentSheet){
-        // pop 弹出的评论框输入层
-        /*
-        Navigator.of(context).pop();
-        if(!mounted) return;
-        // 评论弹出层显示为false
-
-        setState(() {
-          _isShowCommentSheet = false;
-          //print('评论弹出框关闭...' + _isShowCommentSheet.toString());
-        });
-        */
-        print('pop 评论框弹出层');
-      }
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_){
+    //   print('监听页面底部的弹出高度，上下文对象：' + context.toString());
+    //   // 上下文不存在
+    //   if(context == null) return;
+    //   // 键盘弹起的高度
+    //   final double bottom =  MediaQuery.of(context).viewInsets.bottom;
+    //   print('监听页面底部的弹出高度' + bottom.toString());
+    //   if(!(bottom > 0) && _isShowCommentSheet){
+    //     // pop 弹出的评论框输入层
+    //
+    //     Navigator.of(context).pop();
+    //     if(!mounted) return;
+    //     // 评论弹出层显示为false
+    //
+    //     setState(() {
+    //       _isShowCommentSheet = false;
+    //       //print('评论弹出框关闭...' + _isShowCommentSheet.toString());
+    //     });
+    //
+    //     print('pop 评论框弹出层');
+    //   }
+    // });
   }
 
   @override
@@ -136,7 +136,6 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
   ///
   /// 评论文本监听器
   void _commentListener(){
-
     // 评论内容是否为空，用于控制发送按钮
     // if(_commentTextController.text.trim().length > 0){
     //   if(!mounted) return;
@@ -144,18 +143,15 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
     //       _commentContentIsEmpty = false;
     //     });
     // }
-
-
   }
 
 
   /// 用户实时追加@信息
   void _appendAtInfo(){
     // 添加 @ 的用户
-    if(_atList?.isNotEmpty??false){
+    if(_atList.isNotEmpty??false){
       // 最新at的用户
       final Map<String, String> atMap = _atList.last;
-      if(atMap == null) return;
       // 构造艾特字符串
       final String appendAtString = '@'+ atMap.putIfAbsent('nickname', ()=> '艾特无效')+' ';
       _commentTextController.text += appendAtString;
@@ -177,13 +173,13 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
       return;
     }else {
       //根据此条动态的_movingId，请求服务器，获取动态的详情信息
-      final resData = await BjuHttp.get(
+      final ResponseData resData = await BjuHttp.get(
           API.movingDetailsById + _movingId.toString()
       ).then((onValue) =>
           ResponseData.fromJson(onValue.data)
       ).catchError((onError) {
         showToast('请求服务器异常！$onError');
-        //return;
+        return ResponseData();
       });
 
       // 请求失败
@@ -193,7 +189,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
         showToast("获取详情信息失败！${resData.message}");
         return;
       }
-      print('获取的动态详情信息为：res= ' + resData.res.toString());
+      //print('获取的动态详情信息为：res= ' + resData.res.toString());
       if (!mounted) return;
       setState(() {
         _movingDetails = MovingDetails.fromJson(resData.res);
@@ -271,7 +267,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
           ),
           // movingImages 图片信息
           //(_movingDetails.movingImages != null && _movingDetails.movingImages.length > 0)
-          _movingDetails.movingImages.isNotEmpty ?  Padding(
+          _movingDetails.movingImages.isEmpty ?  const SizedBox() : Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: GridView.count(
               shrinkWrap: true,
@@ -289,7 +285,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                 ),
               ) ).toList(),
             ),
-          ) : const SizedBox(),
+          ),
           // movingType and movingTopics 动态类型及标签
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 8, 5, 0),
@@ -298,6 +294,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
               mainAxisAlignment: MainAxisAlignment.start,
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                //movingType
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
@@ -309,6 +306,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                     ),
                   ),
                 ),
+                //movingTopics
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(5),
@@ -370,12 +368,8 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                 // 点赞
                 GestureDetector(
                   onTap: _movingDetails.movingLikeUsers?.contains(user?.userId.toString()??0)??false ? null : () async {
-                    // print('用户的点赞用户列表数据为: ');
-                    // print((_movingDetails.movingLikeUsers??[]));
-                    // return;
-                    print('动态点赞');
+
                     if( user == null){
-                      print('点赞失败，用户未登录');
                       showToast('请先登录！');
                       return;
                     }
@@ -403,7 +397,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                       return ResponseData();
                     });
                     //
-                    if(resData.statusCode== -1){
+                    if(resData.statusCode!=0){
                       showToast('网络错误！');
                       return;
                     }
@@ -417,7 +411,6 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                         newUserList.add(user.userId.toString());
                         _movingDetails.movingLikeUsers = newUserList;
                       });
-                      print('点赞过后，动态的点赞量为：' + _movingDetails.movingLike.toString() + ' 动态的点赞用户列表为：' + _movingDetails.movingLikeUsers.toString());
                     }
                     // 弹出提示信息
                     showToast(resData.message);
@@ -442,7 +435,6 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                     ],
                   ),
                 ),
-
                 // 评论
                 GestureDetector(
                   child: Row(
@@ -479,7 +471,6 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
               ],
             ),
           ),
-
           Container(
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -503,265 +494,182 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
           Divider(color: Colors.blueGrey[200]),
         ]
     );
-
   }
-  ///
-  /// 评论区弹窗
-  /// [currentContext]  当前上下文
-  /// [user]  登录用户
+
   _showCommentWindow(BuildContext currentContext ,User user){
 
-    // 弹出框的key
-    // GlobalKey _commentSheetKey = GlobalKey();
-    // 评论弹出层为true
-    if(mounted){
-      setState(() {
-        _isShowCommentSheet = true;
-        //print('评论弹出框打开...' + _isShowCommentSheet.toString());
-      });
-    }
-    // 弹出层
     showModalBottomSheet(
         backgroundColor: Colors.transparent, // 透明
+        isScrollControlled: true,
         context: context,
         builder: (context){
-
-          // 禁用发送按钮
-          // bool disableSendBtn = true;
-
-          // 弹出键盘
-          // FocusScope.of(context).requestFocus(_commentFocusNode);
-
-          // 获得键盘的弹出高度
-          final double bottom = MediaQuery.of(context).viewInsets.bottom;
-          print(context);
-          print('键盘高度：' + bottom.toString()); // 287.3333
-
-          print('弹出层高度：' + MediaQuery.of(context).size.height.toString()); // 总720.00，弹出层是360
-
           // 容器的宽度
           final double width = MediaQuery.of(context).size.width;
-          // 容器的高度
-          final double height = ScreenUtil().setHeight(650);
+          //容器的高度
+          //final double height = ScreenUtil().setHeight(650);
 
-          return Container(
-            // key: _commentSheetKey,
-            width: width,
-            height: height,
-            margin: const EdgeInsets.only(top: 10),
-            decoration: const BoxDecoration(
-              color: Colors.transparent,
-            ),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                // 输入框区域，@按钮，发送按钮
-                Positioned(
-                  top: 8,
-                  // left: ,
-                  // width: width,
-                  // height: 50,
-                  child: Container(
-                    width: width,
-                    height: 65,
-                    color: Colors.white,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        // 文本框
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
-                            child: TextField(
-                              controller: _commentTextController,
-                              focusNode: _commentFocusNode,
-                              autofocus: true,
-                              maxLines: null,
-                              expands: true,
-                              keyboardType: TextInputType.text,
-                              // scrollPadding: EdgeInsets.all(0),
-                              onChanged: (value){
-                                print('输入了文本信息：');
-                                print(value);
-                                if(!mounted) return;
-                                if(value.trim().length > 0){
-                                  // 激活发送按钮
-                                  setState((){
-                                    print('文本不为空，');
-                                    _commentContentIsEmpty = false;
-                                  });
-                                  print('发送按钮的状态：' + _commentContentIsEmpty.toString());
-                                } else {
-                                  // 关闭发送按钮
-                                  setState((){
-                                    print('文本为空，');
-                                    _commentContentIsEmpty = true;
-                                  });
-                                  print('发送按钮的状态：' + _commentContentIsEmpty.toString());
-                                }
-                              },
-                              decoration: InputDecoration(
-                                hintText: '说点什么吧...',
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
+          return AnimatedPadding(
+            padding: MediaQuery.of(context).viewInsets,
+            duration: const Duration(milliseconds: 100),
+            child: Container(
+              width: width,
+              height: 65,
+              color: Colors.white,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  // 文本框
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      child: TextField(
+                        controller: _commentTextController,
+                        focusNode: _commentFocusNode,
+                        autofocus: true,
+                        maxLines: null,
+                        expands: true,
+                        keyboardType: TextInputType.text,
+                        // scrollPadding: EdgeInsets.all(0),
+                        onChanged: (value){
+                          if(!mounted) return;
+                          if(value.trim().isNotEmpty){
+                            // 激活发送按钮
+                            setState((){
+                              _commentContentIsEmpty = false;
+                            });
+                          } else {
+                            // 关闭发送按钮
+                            setState((){
+                              _commentContentIsEmpty = true;
+                            });
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          hintText: '说点什么吧...',
+                          border: InputBorder.none,
                         ),
-                        // @ 按钮
-                        Padding(
-                          padding: const EdgeInsets.only( right: 10,),
-                          child: GestureDetector(
-                            child: Icon(FontAwesomeIcons.at, size: 32, color: Colors.blue[400],),
-                            onTap: () async {
-                              if(!mounted) {
-                                showToast('页面加载未完成！');
-                                return;
-                              }
-                              print('点击了评论艾特按钮...');
-                              // can't understand this
-                              Navigator.of(context).pop();
-                              // setState(() {
-                              //   // 评论弹出层为false，避免页面跳转引起的问题（路由传递使用的是同一个上下文对象）
-                              //   _isShowCommentSheet = false;
-                              // });
-                              //print('弹出框，点击@按钮之后，_isShowCommentSheet= ' + _isShowCommentSheet.toString());
-                              // 跳转 @ 选项页面
-                              final Map<String,String>? map = await
-                              Navigator.of(context).push<Map<String,String>>(
-                                  MaterialPageRoute(builder: (context) =>
-                                  const AtChoosePage()
-                                  )
-                              );
-                              print('弹出框点击@按钮，选择的用户：'+map.toString());
-                              print('弹出框点击@按钮，返回详情页之后，_isShowCommentSheet= ' + _isShowCommentSheet.toString());
-                              if(!mounted || map==null || map.isEmpty) return;
-                              setState(() {
-                                if(!(map.isEmpty??true)){
-                                  _atList.add(map);
-                                }
-                              });
-                              print('弹出框点击@按钮，艾特列表数据：'+_atList.toString());
-                              // 追加数据
-                              _appendAtInfo();
-                              // 弹出区域
-                              _showCommentWindow(currentContext,user);
+                      ),
+                    ),
+                  ),
+                  // @ 按钮
+                  Padding(
+                    padding: const EdgeInsets.only( right: 10,),
+                    child: GestureDetector(
+                      child: Icon(FontAwesomeIcons.at, size: 32, color: Colors.blue[400],),
+                      onTap: () async {
+                        if(!mounted) {
+                          showToast('页面加载未完成！');
+                          return;
+                        }
+                        // can't understand this
+                        //Navigator.of(context).pop();
 
+                        final Map<String,String>? map = await
+                        Navigator.of(context).push<Map<String,String>>(
+                            MaterialPageRoute(builder: (context) => const AtChoosePage() )
+                        );
+
+                        if(!mounted || map==null || map.isEmpty) return;
+                        setState(() {
+                          _atList.add(map);
+                        });
+                        // 追加数据
+                        _appendAtInfo();
+                        // 弹出区域
+                        //_showCommentWindow(currentContext,user);
+                      },
+                    ),
+                  ),
+                  // 发送按钮
+                  Padding(
+                    padding: const EdgeInsets.only( right: 15,),
+                    child: GestureDetector(
+                      child: Icon(FontAwesomeIcons.paperPlane, size: 32,color: Colors.red[400]),
+                      onTap: () async {
+                        final  commentContent = _commentTextController.text.trim();
+                        if(commentContent.isEmpty){
+                          showToast('请输入评论内容！');
+                          return;
+                        }
+
+                        // 构建评论数据Map
+                        final Map<String,dynamic> commentMap = {
+                          "movingId": _movingDetails.movingId,
+                          "commentContent": _commentTextController.text,
+                          "commentUid": user.userId,
+                          "commentAuthor": user.userNickname,
+                          "commentAuthorAvatar": user.userAvatar,
+                          "replyMovingUid": _movingDetails.movingAuthorId,
+                          "replyMovingUname": _movingDetails.movingAuthorName,
+                          "commentParent": _parentCommentId == 0 ? null : _parentCommentId,
+                        };
+                        // 推送的Map（@类型与评论类型）
+                        final Map<String,dynamic> jpushAliasMap = {
+                          "atAliasList": _atList.map((m) => m['phone']).toList(),
+                          "commentAlias":  _commentPhone == '' ? _movingDetails.movingAuthorPhone : _commentPhone
+                        };
+                        // 提交数据
+                        final Map<String,dynamic> data = {};
+                        data.addAll(jpushAliasMap);
+                        data.addAll(commentMap);
+                        // 设置请求的配置
+                        // final Options options = Options(contentType: Headers.jsonContentType,);
+                        // print('Dio的POST请求信息：');
+                        // print('contentType: ' + BjuHttp.dio.options.contentType);
+                        // print('header: ' + BjuHttp.dio.options.headers.toString());
+                        // 获取登录时的token信息
+                        final String token = BjuHttp.dio.options.headers.putIfAbsent('Authorization', () => 'Bearer ');
+                        // 请求服务器
+                        final Dio dio = Dio();
+                        // Response res =  await dio.post(API.addComment,  data: data,);
+                        // 发送网络请求
+                        ResponseData resData = await dio.post(
+                          API.addComment,
+                          data: data,
+                          options: Options(
+                            headers: {
+                              "Authorization" : token,
                             },
                           ),
-                        ),
-                        // 发送按钮
-                        Padding(
-                          padding: EdgeInsets.only( right: 15,),
-                          child: GestureDetector(
-                            child: Icon(FontAwesomeIcons.paperPlane, size: 32,color: Colors.red[400]),
-                            onTap: () async {
-                              print('点击发送按钮，提交评论信息，长度：length=' + _commentTextController.text.trim().length.toString());
-                              if(!(_commentTextController.text.trim().length > 0)){
-                                showToast('请输入评论内容！');
-                                return;
-                              }
+                        ).then((onValue){
+                            return ResponseData.fromJson(onValue.data);
+                        }).catchError((onError){
+                          print(onError);
+                          showToast('请求服务器异常！');
+                          return ResponseData();
+                        });
 
-                              print('点击了评论发送按钮...');
-                              final String commentContent = _commentTextController.text;
-                              print('用户评论内容：$commentContent');
-                              // 构建评论数据Map
-                              final Map<String,dynamic> commentMap = {
-                                "movingId": _movingDetails.movingId,
-                                "commentContent": _commentTextController.text,
-                                "commentUid": user.userId,
-                                "commentAuthor": user.userNickname,
-                                "commentAuthorAvatar": user.userAvatar,
-                                "replyMovingUid": _movingDetails.movingAuthorId,
-                                "replyMovingUname": _movingDetails.movingAuthorName,
-                                "commentParent": _parentCommentId == 0 ? null : _parentCommentId,
-                              };
-                              print('构建评论数据Map: commentMap='+commentMap.toString());
-                              // 推送的Map（@类型与评论类型）
-                              final Map<String,dynamic> jpushAliasMap = {
-                                "atAliasList": _atList.map((m) => m['phone']).toList(),
-                                "commentAlias":  _commentPhone == '' ? _movingDetails.movingAuthorPhone : _commentPhone
-                              };
-                              print('推送的Map: jpushAliasMap='+jpushAliasMap.toString());
-                              // 提交数据
-                              final Map<String,dynamic> data = Map<String,dynamic>();
-                              data.addAll(jpushAliasMap);
-                              data.addAll(commentMap);
-                              print('提交数据为：data='+data.toString());
-                              // 设置请求的配置
-                              // final Options options = Options(contentType: Headers.jsonContentType,);
-                              // print('Dio的POST请求信息：');
-                              // print('contentType: ' + BjuHttp.dio.options.contentType);
-                              // print('header: ' + BjuHttp.dio.options.headers.toString());
-                              // 获取登录时的token信息
-                              final String token = BjuHttp.dio.options.headers.putIfAbsent('Authorization', () => 'Bearer ');
-                              // 请求服务器
-                              final Dio dio = Dio();
-
-                              //  Response res =  await dio.post(API.addComment,  data: data,);
-                              //  print('重新设置的Dio结果为：');
-                              //  print(res.toString());
-                              //  print(res.data.toString());
-                              // 发送网络请求
-                              ResponseData resData = await dio.post(
-                                API.addComment,
-                                data: data,
-                                options: Options(
-                                  headers: {
-                                    "Authorization" : token,
-                                  },
-                                ),
-                              ).then((onValue) => ResponseData.fromJson(onValue.data))
-                                  .catchError((onError){
-                                print('添加评论出错了！');
-                                print(onError);
-                                showToast('请求服务器异常！');
-                              });
-                              if(resData !=null && resData.statusCode == 1){
-                                print('评论失败');
-                                // 关闭弹出框
-                                Navigator.pop(context);
-                                showToast(resData.message);
-
-                                return;
-                              }
-                              // 关闭键盘
-                              // FocusScope.of(context).unfocus();
-                              // 关闭弹出框
-                              Navigator.pop(context);
-                              // 重新加载数据
-                              _getMovingDetailsById();
-                            },
-                          ),
-                        ),
-
-                      ],
+                        if(resData !=null && resData.statusCode == 1){
+                          print('评论失败');
+                          // 关闭弹出框
+                          if(!mounted) return;
+                          Navigator.pop(context);
+                          showToast(resData.message);
+                          return;
+                        }
+                        // 关闭键盘
+                        // FocusScope.of(context).unfocus();
+                        // 关闭弹出框
+                        if(context.mounted) {
+                          Navigator.of(context).pop();
+                        }
+                        // 重新加载数据
+                        _getMovingDetailsById();
+                      },
                     ),
                   ),
 
-                ),
-                // Positioned(
-                //   top: 60,
-                //   child: Container(
-                //     color: Colors.transparent,
-                //     width: width,
-                //     height: 600,
-                //   ),
-
-                // ),
-
-              ],
-            ),
-
-
+                ],
+              ),
+            )
           );
         }
     ).then((onValue){
       print('评论框关闭回调: ');
-      print(onValue.toString());
       setState(() {
         // 评论弹出层为false，避免页面跳转引起的问题（路由传递使用的是同一个上下文对象）
-        _isShowCommentSheet = false;
+        // _isShowCommentSheet = false;
         // 清空@的用户列表信息
         _atList = [];
         // 清空输入框中的内容
@@ -799,18 +707,21 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                   return;
                 }
                 // 获取当前上下文
-                final BuildContext currentContext = _movingDetailsKey?.currentContext??context;;
+                final BuildContext currentContext = _movingDetailsKey?.currentContext??context;
                 // 弹出区域
                 _showCommentWindow(currentContext,user);
               },
               child: const Padding(
                 padding: EdgeInsets.fromLTRB(10, 5, 0, 5),
-                child: Text('留下你精彩的评论...', style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  wordSpacing: 2,
-                  color: Colors.lightBlue,
-                ),),
+                child: Text(
+                  '留下你精彩的评论...',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    wordSpacing: 2,
+                    color: Colors.lightBlue,
+                  ),
+                ),
               ),
             ),
           ),
@@ -826,7 +737,12 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                     return;
                   }
                   // 跳转 @ 选项页面
-                  final Map<String,String>? map = await Navigator.of(context).push<Map<String,String>>(MaterialPageRoute(builder: (context) => AtChoosePage()));
+                  final Map<String,String>? map = await Navigator.of(context).push<Map<String,String>>(
+                      MaterialPageRoute(
+                          builder: (context) => const AtChoosePage()
+                      )
+                  );
+                  //
                   print('底部评论区@按钮，选择的用户：'+map.toString());
                   // 选择为空
                   if(map == null) return;
@@ -834,7 +750,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                   setState(() {
                     // 添加@用户
                     _atList.add(map);
-                    print('底部评论区@按钮，艾特列表数据：'+_atList.toString());
+                    //print('底部评论区@按钮，艾特列表数据：'+_atList.toString());
                   });
                   // 追加@的用户信息
                   _appendAtInfo();
@@ -884,8 +800,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
 
     return commentList.map<Widget>((m){
       return GestureDetector(
-          child:
-          Card(
+          child: Card(
             elevation: 1, //阴影高度
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -915,6 +830,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
+                              //
                               Expanded(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -926,6 +842,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                                       padding: const EdgeInsets.fromLTRB(5, 2, 0, 5),
                                       child: Text(m.commentAuthorName, style: nicknameTextStyle,),
                                     ),
+                                    //内容和时间
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(5, 0, 3, 8),
                                       child: Wrap(
@@ -1019,7 +936,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                             ],
                           ),
                           // 父评论信息
-                          m.parentCommentAuthorId == null ? SizedBox() : Row(
+                          m.parentCommentAuthorId == null ? const SizedBox() : Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
@@ -1117,7 +1034,6 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                               ),
                             ],
                           ),
-
                         ],
                       )
                   )
@@ -1155,6 +1071,7 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
 
     return Scaffold(
       key: _movingDetailsKey,
+      //resizeToAvoidBottomInset: true,
       appBar: AppBar(
         leading: BackButton(onPressed:()=>Navigator.of(context).pop()),
         title: const Text('动态详情'),
@@ -1226,6 +1143,9 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
               ),
             ),
           ),
+          // SliverToBoxAdapter(
+          //   child: Padding(padding: MediaQuery.of(context).viewInsets),
+          // )
         ],
       ),
       bottomNavigationBar: _buildBottomCommentArea(),

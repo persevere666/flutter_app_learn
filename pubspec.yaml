@@ -58,6 +58,22 @@ dependencies:
   badges: ^3.0.2
   #getflutter: ^1.1.3
   getwidget: ^3.0.1
+  # 打开网页
+  webview_flutter: ^4.0.6
+  #仅支持IOS Android
+  flutter_custom_dialog: ^1.3.0
+  # 省市县三级联动
+  city_pickers: ^1.2.1
+  # 日期选择器
+  flutter_datetime_picker: ^1.5.1
+  # flutter picker
+  flutter_picker: ^2.1.0
+  # 图片上传
+  image_picker: ^0.8.7
+  geolocator: ^9.0.2
+  geocoding: ^2.1.0
+  # 多图片上传
+  multi_image_picker: ^4.8.1
 
 dev_dependencies:
   flutter_test:

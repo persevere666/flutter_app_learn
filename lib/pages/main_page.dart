@@ -1,6 +1,7 @@
-//import 'package:flutter_app_learn/pages/personal_center_page.dart';
+import 'package:flutter_app_learn/pages/personal_center_page.dart';
 import 'package:flutter_app_learn/pages/message_page.dart';
 import 'package:flutter_app_learn/pages/home_page.dart';
+import 'package:flutter_app_learn/pages/publish_page.dart';
 //import 'package:flutter_app_learn/pages/publish_page.dart';
 import 'package:flutter_app_learn/pages/square_page.dart';
 //import 'package:flutter/cupertino.dart';
@@ -32,8 +33,8 @@ class _MainPageState extends State<MainPage> {
     const MessagePage(),
     //const Text("MessagePage"),
 
-    //PersonalCenterPage()
-    const Text("PersonalCenterPage"),
+    PersonalCenterPage()
+    //const Text("PersonalCenterPage"),
   ];
 
   ///
@@ -64,7 +65,7 @@ class _MainPageState extends State<MainPage> {
               icon: const Icon(Icons.camera),
               onPressed: () {
                 setState(() {
-                  // _currentIndex = 1;
+                  //_currentIndex = 1;
                   // 跳转到朋友圈页面
                   Navigator.push(
                       context,
@@ -96,6 +97,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   /// 发布栏目
+  /// goto: PublishPage(1~4)
   Widget _showPublishItem() {
     return Container(
       padding: const EdgeInsets.all(10),
@@ -122,8 +124,8 @@ class _MainPageState extends State<MainPage> {
               // 手动关闭模态框
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //return PublishPage(1);
-                return const Text("PublishPage(1)");
+                return const PublishPage(1);
+                //return const Text("PublishPage(1)");
               }));
             },
           ),
@@ -144,8 +146,8 @@ class _MainPageState extends State<MainPage> {
               // 手动关闭模态框
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //return PublishPage(2);
-                return const Text("PublishPage(2)");
+                return PublishPage(2);
+                //return const Text("PublishPage(2)");
               }));
             },
           ),
@@ -167,8 +169,8 @@ class _MainPageState extends State<MainPage> {
               // 手动关闭模态框
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //return PublishPage(3);
-                return const Text("PublishPage(3)");
+                return PublishPage(3);
+                //return const Text("PublishPage(3)");
               }));
             },
           ),
@@ -189,8 +191,8 @@ class _MainPageState extends State<MainPage> {
               // 手动关闭模态框
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //return PublishPage(4);
-                return const Text("PublishPage(4)");
+                return PublishPage(4);
+                //return const Text("PublishPage(4)");
               }));
             },
           ),

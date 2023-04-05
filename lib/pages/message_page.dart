@@ -15,7 +15,7 @@ class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);
 
   @override
-  _MessagePageState createState() => _MessagePageState();
+  State<MessagePage>  createState() => _MessagePageState();
 }
 
 class _MessagePageState extends State<MessagePage> {
@@ -31,7 +31,7 @@ class _MessagePageState extends State<MessagePage> {
   @override
   Widget build(BuildContext context) {
     // 初始化屏幕大小用于适配
-    ScreenUtil.init(context, designSize: const Size(750, 1334));
+    //ScreenUtil.init(context, designSize: const Size(750, 1334));
     //
     return Scaffold(
       appBar: AppBar(
@@ -72,12 +72,12 @@ class _MessagePageState extends State<MessagePage> {
                                 ),
                                 content: const Text('同学请先登录，在查看！'),
                                 actions: [
-                                  //FlatButton(
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
                                     child: const Text('知道了'),
                                   ),
-                                ]);
+                                ]
+                            );
                           });
                       return;
                     }

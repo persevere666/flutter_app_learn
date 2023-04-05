@@ -1,14 +1,12 @@
 import 'package:flutter_app_learn/api/api.dart';
-
-//import 'package:flutter_app_learn/pages/browser.dart';
-//import 'package:flutter_app_learn/pages/login_page.dart';
-//import 'package:flutter_app_learn/pages/modules/campus_voice.dart';
-//import 'package:flutter_app_learn/pages/modules/part_time_recruitment.dart';
-//import 'package:flutter_app_learn/pages/modules/wall_and_you.dart';
-
+import 'package:flutter_app_learn/pages/browser.dart';
+import 'package:flutter_app_learn/pages/login_page.dart';
+import 'package:flutter_app_learn/pages/modules/campus_voice.dart';
+import 'package:flutter_app_learn/pages/modules/part_time_recruitment.dart';
+import 'package:flutter_app_learn/pages/modules/wall_and_you.dart';
 import 'package:flutter_app_learn/providers/login_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+//import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 //import 'package:getflutter/getflutter.dart';
 import 'package:provider/provider.dart';
@@ -88,69 +86,90 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Expanded(
-                        child: Container(
+                        child: SizedBox(
                             height: 50,
                             child: TextButton.icon(
                                 onPressed: () {
                                   const String url = API.campusNews;
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          //BrowserPage('宝大校园快讯', url)
-                                          const Text("BrowserPage 宝大校园快讯\n")));
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const BrowserPage('宝大校园快讯', url)
+                                          //const Text("BrowserPage 宝大校园快讯\n")
+                                      )
+                                  );
                                 },
                                 icon: const Icon(Icons.message),
-                                label: Text(_modelNames[0])))),
+                                label: Text(_modelNames[0])
+                            )
+                        )
+                    ),
                     Expanded(
-                        child: Container(
+                        child: SizedBox(
                             height: 50,
                             child: TextButton.icon(
                                 onPressed: () {
                                   // 跳转到校园之声
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      //builder: (context) => CampusVoiceModule()
-                                      builder: (context) =>
-                                          const Text("CampusVoiceModule")));
+                                      builder: (context) => const CampusVoiceModule()
+                                      //builder: (context) => const Text("CampusVoiceModule")
+                                  ));
                                 },
                                 icon: const Icon(Icons.record_voice_over),
-                                label: Text(_modelNames[1]))))
-                  ])),
-
+                                label: Text(_modelNames[1])
+                            )
+                        )
+                    )
+                  ]
+                )
+            ),
             Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(children: [
-              Expanded(
-                  child: Container(
-                      height: 50,
-                      child: TextButton.icon(
-                          onPressed: () {
-                            // 跳转到墙上有你
-                            Navigator.of(context).push(MaterialPageRoute(
-                                //builder: (context) => WallModule();
-                                builder: (context) =>
-                                    const Text("WallModule")));
-                          },
-                          icon: const Icon(Icons.wallpaper),
-                          label: Text(_modelNames[2])))),
-              Expanded(
-                  child: Container(
-                      height: 50,
-                      child: TextButton.icon(
-                          onPressed: () {
-                            // 跳转到兼职招聘
-                            Navigator.of(context).push(MaterialPageRoute(
-                                //builder: (context) => RecruitmentModule()
-                                builder: (context) =>
-                                    const Text("RecruitmentModule")));
-                          },
-                          icon: const Icon(Icons.work),
-                          label: Text(_modelNames[3])))),
-            ])),
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                    children: [
+                      Expanded(
+                          child: SizedBox(
+                              height: 50,
+                              child: TextButton.icon(
+                                  onPressed: () {
+                                    // 跳转到墙上有你
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) => const WallModule()
+                                      //builder: (context) => const Text("WallModule")
+                                    ));
+                                    },
+                                  icon: const Icon(Icons.wallpaper),
+                                  label: Text(_modelNames[2])
+                              )
+                          )
+                      ),
 
+                      Expanded(
+                          child: Container(
+                            height: 50,
+                            child: TextButton.icon(
+                                onPressed: () {
+                                  // 跳转到兼职招聘
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => const RecruitmentModule()
+                                      //builder: (context) => const Text("RecruitmentModule")
+                                  ));
+                                },
+                                icon: const Icon(Icons.work),
+                                label: Text(_modelNames[3])
+                            )
+                        )
+                      ),
+                    ]
+                )
+            ),
             const Align(
-            alignment: Alignment.center,
-            child: CircleAvatar(
-                radius: 40,
-                backgroundImage: AssetImage('assets/avatar/bju_xh.jpg')))
+                alignment: Alignment.center,
+                child: CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage('assets/avatar/bju_xh.jpg')
+                )
+            )
           ]
       ),
     );
@@ -195,7 +214,7 @@ class _HomePageState extends State<HomePage> {
               activeColor: Colors.white
           )
       ),
-      autoplay: _swiperImgs != null && _swiperImgs.length > 1,
+      autoplay: _swiperImgs.length > 1,
       autoplayDelay: 2000,
       //viewportFraction: 1,
       //scale: 0.9,
@@ -204,16 +223,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // 屏幕适配
-    ScreenUtil.init(context, designSize: const Size(750, 1334));
-    //
     return Consumer<LoginProvider>(
-      builder: (context, loginProvider, _) {
+      builder: (context, loginProvider, child) {
         return CustomScrollView(
             scrollDirection: Axis.vertical, //主轴为水平轴
             slivers: <Widget>[
-              ///
-              ///height=150
               SliverAppBar(
                 pinned: true, // 固定AppBar，不滑出屏幕
                 expandedHeight: 150.0,
@@ -226,9 +240,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: !loginProvider.isLogin ? () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  //builder: (context) => LoginPage()
-                                  builder: (context) =>
-                                      const Text("LoginPage")
+                                  builder: (context) => const LoginPage()
                               )
                       ) : null,
                       child: loginProvider.isLogin ? const Text('BJU，欢迎您！') : const Text('登录'),
@@ -278,7 +290,7 @@ class _HomePageState extends State<HomePage> {
               SliverToBoxAdapter(
                 child: Container(
                   color: Colors.grey[100],
-                  height: ScreenUtil().setHeight(350),
+                  height: 350,//ScreenUtil().setHeight(350),
                   child: PageView(
                     controller: _pageController,
                     scrollDirection: Axis.horizontal,

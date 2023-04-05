@@ -119,7 +119,7 @@ class _AtChoosePageState extends State<AtChoosePage> {
                 return;
               }
               //
-              if(_searchTextController.text == null || _searchTextController.text.isEmpty){
+              if(_searchTextController.text.isEmpty){
                 showToast('请输入搜索内容！');
                 return;
               }
@@ -136,24 +136,21 @@ class _AtChoosePageState extends State<AtChoosePage> {
                 print('搜索艾特用户失败！');
                 print(onError);
                 showToast('请求服务器异常！');
-                //return;
+                return ResponseData();
               });
-
-              ///
-
-              if(resData == null) {
-                // 延迟提示
-                Future.delayed(
-                  //why delayed?
-                    Duration(milliseconds : 1500),
-                        () => showToast('网络错误！')
-                );
-                return;
-              }
+              // if(resData == null) {
+              //   // 延迟提示
+              //   Future.delayed(
+              //     //why delayed?
+              //       Duration(milliseconds : 1500),
+              //           () => showToast('网络错误！')
+              //   );
+              //   return;
+              // }
 
               print('@用户搜索数据为：' + resData.toString());
 
-              if(resData != null && resData.statusCode == 1){
+              if(resData.statusCode == 1){
                 showToast(resData.message);
                 return;
               }
@@ -240,11 +237,7 @@ class _AtChoosePageState extends State<AtChoosePage> {
   }
 
   @override
-
   Widget build(BuildContext context) {
-
-    // 初始化屏幕大小用于适配
-    ScreenUtil.init(context, designSize: const Size(750,1334));
 
     return Scaffold(
       appBar: AppBar(

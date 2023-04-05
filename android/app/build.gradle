@@ -52,7 +52,8 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         //
-
+        multiDexEnabled true
+        //
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a'
@@ -90,4 +91,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //implementation 'com.android.support:multidex:1.0.3'
 }

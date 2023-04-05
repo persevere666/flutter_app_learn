@@ -127,20 +127,23 @@ class CommentVO {
   static CommentVO generateCommentForTest(){
     CommentVO commentVO = CommentVO();
     commentVO.commentId=Random().nextInt(1000000);
-    commentVO.commentContent="commentContent";
+    commentVO.commentContent="commentContent: this is a long story, long long ago, there ia a evil dragon, then he change to be a little birdh and fly to the moon, at last he become a big apple";
     commentVO.commentLike = Random().nextInt(10000);
     commentVO.commentLikeUsers = const ["commentLikeUsers1","commentLikeUsers2","commentLikeUsers3"];
     commentVO.commentCreateTime = "0";
     commentVO.commentAuthorId = Random().nextInt(10000);
-    commentVO.commentAuthorAvatar = "https://img-blog.csdnimg.cn/2021032313493741.png";
+    commentVO.commentAuthorAvatar =
+        "https://c-ssl.duitang.com/uploads/item/201710/30/20171030124218_idAfM.jpeg";
     commentVO.commentAuthorName = "commentAuthorName";
     commentVO.commentAuthorPhone = "commentAuthorPhone";
+
     commentVO.parentCommentId = Random().nextInt(10000);
-    commentVO.parentCommentContent = "parentCommentContent";
+    commentVO.parentCommentContent = "parentCommentContent:ha ha ha ha, I understand it and then I become the dragon, I kill a lot of people, but I did a good thing, I know what I did. I will never regret for what I did.";
     commentVO.parentCommentLike = Random().nextInt(10000);
     commentVO.parentCommentCreateTime = "parentCommentCreateTime";
     commentVO.parentCommentAuthorId = Random().nextInt(10000);
-    commentVO.parentCommentAuthorAvatar = "https://www.ssfiction.com/wp-content/uploads/2020/08/20200805_5f2b1669e9a24.jpg";
+    commentVO.parentCommentAuthorAvatar =
+        "https://www.ssfiction.com/wp-content/uploads/2020/08/20200805_5f2b1669e9a24.jpg";
     commentVO.parentCommentAuthorName = "parentCommentAuthorName";
     commentVO.parentCommentAuthorPhone = "parentCommentAuthorPhone";
     return commentVO;

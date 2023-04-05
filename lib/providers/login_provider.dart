@@ -25,7 +25,12 @@ class LoginProvider extends ChangeNotifier {
 
   Map<String, dynamic> get allCounts => _allCounts;
 
-
+  ///
+  /// 初始化
+  ///
+  void initUser(){
+      _user = User();
+  }
   ///
   /// 用户登录操作
   ///

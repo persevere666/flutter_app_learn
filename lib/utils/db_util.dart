@@ -136,7 +136,7 @@ class DBUtil {
   /// *__返回执行的结果（List<UserMessage>）__
   ///
   static Future<List<UserMessage>> queryMessagesWithTypeAndOwner(
-      int type, String owner) async {
+      int? type, String? owner) async {
     print('数据库工具类，按照类别与拥有者查询，入参：type=$type，owner=$owner');
     // if(type == null || (owner?.isEmpty??true)){
     //   print('数据库工具类，按照类别与拥有者查询，，查询条件无效！');

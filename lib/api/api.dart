@@ -62,7 +62,7 @@ class API {
   static const String getUserInfoById = '$baseUri/user/info/';
 
   /// 校园新闻地址
-  static const String campusNews = 'http://www.bjwlxy.edu.cn/index/xwdt/xyzx.htm';
+  static const String campusNews = 'http://www.bjwlxy.edu.cn';
 
   /// 平台系统用户默认头像地址
   static const String defaultAvatarURL = '$baseUri/static/avatars/default_avatar.jpg';

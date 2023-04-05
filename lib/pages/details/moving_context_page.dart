@@ -264,7 +264,6 @@ class MovingContextPageState extends State<MovingContextPage>{
                     ],
                   ),
                 ),
-
                 // 评论
                 GestureDetector(
                   child: Row(
@@ -305,7 +304,7 @@ class MovingContextPageState extends State<MovingContextPage>{
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.fromLTRB(10, 8, 0, 8),
+                  padding: const EdgeInsets.fromLTRB(10, 8, 0, 8),
                   child: Text('全部评论如下', style: TextStyle(
                     fontSize: 16,
                     wordSpacing: 4,

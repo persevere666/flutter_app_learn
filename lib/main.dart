@@ -48,11 +48,14 @@ class MyAppState extends State<MyApp> {
   final List<SingleChildWidget> _providers =  [
     buildProvider<BjuAppSettingsProvider>(BjuAppSettingsProvider()..init()),
     //how it check if the user login
-    buildProvider<LoginProvider>(LoginProvider()),
-    buildProvider<JPushProvider>(JPushProvider()
-      //..initNotificationPlugin()
-      ..initJPush()
-      ..setUpJPush()
+    buildProvider<LoginProvider>(
+        LoginProvider()..initUser()
+    ),
+    buildProvider<JPushProvider>(
+        JPushProvider()
+        //..initNotificationPlugin()
+          ..initJPush()
+          ..setUpJPush()
     )
   ];
 
@@ -70,7 +73,6 @@ class MyAppState extends State<MyApp> {
                   debugShowCheckedModeBanner: false,
                   home: const Scaffold(
                       body: MainPage()
-                      //body:Text("xxxxxxxxxxxxxxxxxxxxxxx")
                   ),
                 )
             );
