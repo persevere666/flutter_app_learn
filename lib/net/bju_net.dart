@@ -39,15 +39,23 @@ class BjuHttp {
     dio.interceptors.add(
         InterceptorsWrapper(
             onRequest: (options, handler) async {
-              return handler.next(options);
+              // print('请求前打印options: ');
+              // print('contentType: ${options.contentType??""}');
+              // print('headers: ${options.headers.toString()}');
+              // print('data: ${options.data.toString()}');
+              // print('params: ${options.queryParameters.toString()}');
+              handler.next(options);
+              return;
             },
             onResponse: (response, handler) async {
               // Do something with response data
-              return handler.next(response);
+              handler.next(response);
+              return;
             },
             onError: (error, handler) async {
               // Do something with response error
-              return handler.next(error);
+              handler.next(error);
+              return;
             }
         )
     );
@@ -57,14 +65,14 @@ class BjuHttp {
   static token(dynamic token) {
     dio.options.contentType = 'application/json';
     dio.options.headers['Authorization'] = token;
-    print('[set token] dio header :' + dio.options.headers.toString());
+    print('[set token] dio header : ${dio.options.headers.toString()}');
   }
 
   // 销毁token
   static disposeToken() {
     dio.options.contentType = 'application/json';
     dio.options.headers['Authorization'] = 'Bearer ';
-    print('[dispose token] dio header :' + dio.options.headers.toString());
+    print('[dispose token] dio header : ${dio.options.headers.toString()}');
   }
 
   //Dio get instance => _dio;

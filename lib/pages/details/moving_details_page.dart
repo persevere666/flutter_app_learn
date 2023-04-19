@@ -619,7 +619,9 @@ class _MovingDetailsPageState extends State<MovingDetailsPage> with WidgetsBindi
                         // print('contentType: ' + BjuHttp.dio.options.contentType);
                         // print('header: ' + BjuHttp.dio.options.headers.toString());
                         // 获取登录时的token信息
-                        final String token = BjuHttp.dio.options.headers.putIfAbsent('Authorization', () => 'Bearer ');
+                        final String token = BjuHttp.dio.options.headers.putIfAbsent(
+                            'Authorization', () => 'Bearer '
+                        );
                         // 请求服务器
                         final Dio dio = Dio();
                         // Response res =  await dio.post(API.addComment,  data: data,);

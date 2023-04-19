@@ -227,16 +227,22 @@ class _LoginPageState extends State<LoginPage> {
             print('输入数据:');
             print("$_username + $_password");
 
-          // 调用API接口执行登录操作
-          ResponseData resData =  await BjuHttp.post(API.npLogin,params: {
-              'userMobile':_username,
-              'password':_password
-            }).then((onValue) => ResponseData.fromJson(onValue.data))
-            .catchError((onError){
-              //print('登录异常：');
-              //print(onError);
-              showToast('请求服务器异常！');
-              return ResponseData();
+            // 调用API接口执行登录操作
+            ResponseData resData =  await BjuHttp.post(
+                API.npLogin,
+                params: {
+                  'userMobile':_username,
+                  'password':_password
+              }
+            ).then(
+                    (onValue){
+                      return ResponseData.fromJson(onValue.data);
+                    }
+            ).catchError((onError){
+                //print('登录异常：');
+                //print(onError);
+                showToast('请求服务器异常！');
+                return ResponseData();
             });
             // if(resData == null) {
             //   showToast('网络请求失败！');

@@ -13,8 +13,8 @@ class API {
   static const int port = 8080;
   static const String appName = 'bjuInformationService'; // app name
   // static final String baseUri = '$protocol$hostName:$port/$appName'; // 基本路径地址（本机模拟器使用）
-  static const String baseUri = '$protocol$hostName/$appName'; // 基本路径地址 手机（真机）使用
-
+  //static const String baseUri = '$protocol$hostName/$appName'; // 基本路径地址 手机（真机）使用
+  static const String baseUri = 'http://192.168.199.161:8081/$appName';
   //  ******************** passport ********************
   /// 账号密码登录 === [POST]
   static const String npLogin = '$baseUri/passport/login/upLogin';
