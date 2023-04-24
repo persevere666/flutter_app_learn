@@ -522,6 +522,7 @@ class _PublishPageState extends State<PublishPage> {
                   // 多文件数组
                   final List<MultipartFile> files = [];
                   // 获取图片字节流
+                  //List<Asset> _images
                   for (var image in _images) {
                     // 图片名称
                     String? imageName = image.name;
@@ -541,7 +542,7 @@ class _PublishPageState extends State<PublishPage> {
                   FormData formData = FormData.fromMap({
                       "movingType" : _movingType,
                       "movingContent" : _movingTextController.text,
-                      "currentAddress" : _currentAddress,
+                      "currentAddress" : _currentAddress??"",
                       "userName" : user.userNickname,
                       "userId" : user.userId,
                       "selectedTopics" : _selectedTopics,
@@ -560,7 +561,7 @@ class _PublishPageState extends State<PublishPage> {
                                 contentType: "multipart/form-data",
                                 headers: {
                                     "Authorization" : token,
-                                    "content-type" : "multipart/form-data"
+                                    //"content-type" : "multipart/form-data"
                                 },
                               ),)
                             .then((onValue){

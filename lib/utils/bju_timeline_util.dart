@@ -19,8 +19,9 @@ class BjuTimelineUtil{
     // 时间线工具
     //  TimelineUtil.format();
     final String timelineStr = TimelineUtil.formatByDateTime(
-        dateTime, locale: 'zh_BjuApp', dayFormat: DayFormat.Common);
-    print('时间线形式：timelineStr= ' + timelineStr);
+        dateTime, locale: 'zh_BjuApp', dayFormat: DayFormat.Common
+    );
+    print('时间线形式：timelineStr=$timelineStr');
     return timelineStr;
   }catch (e){
     return "1949-10-01";

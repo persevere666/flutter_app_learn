@@ -1,8 +1,7 @@
 import 'package:flutter_app_learn/pages/personal_center_page.dart';
 import 'package:flutter_app_learn/pages/message_page.dart';
 import 'package:flutter_app_learn/pages/home_page.dart';
-import 'package:flutter_app_learn/pages/publish_page.dart';
-//import 'package:flutter_app_learn/pages/publish_page.dart';
+import 'package:flutter_app_learn/pages/publish_page_v2.dart';
 import 'package:flutter_app_learn/pages/square_page.dart';
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +32,7 @@ class _MainPageState extends State<MainPage> {
     const MessagePage(),
     //const Text("MessagePage"),
 
-    PersonalCenterPage()
+    const PersonalCenterPage()
     //const Text("PersonalCenterPage"),
   ];
 

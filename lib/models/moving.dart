@@ -107,13 +107,13 @@ class Moving {
   }
  static Future<List<Moving>?> getMovingListByIndex(int index) async{
    /// for test
-   if(API.isNowTestMode){
-     return [
-       Moving(),
-       Moving(),
-       Moving()
-     ];
-   }
+   // if(API.isNowTestMode){
+   //   return [
+   //     Moving(),
+   //     Moving(),
+   //     Moving()
+   //   ];
+   // }
    //
    var resData = await BjuHttp.get(
        index == 0 ? API.newMoving : API.hotMoving

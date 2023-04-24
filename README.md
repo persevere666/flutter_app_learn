@@ -68,3 +68,4 @@ samples, guidance on mobile development, and a full API reference.
 
 ## geolocator 9.0.2
     
+# 往虚拟机添加图片

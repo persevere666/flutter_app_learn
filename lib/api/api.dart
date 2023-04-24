@@ -5,7 +5,7 @@
 class API {
   ///
   // ****************** indicate ***********************
-  static const bool isNowTestMode = true;
+  static const bool isNowTestMode = false;
   // ****************** 服务器信息 ***********************
   static const String protocol = 'http://';
   // static final String hostName = '192.168.85.1'; // 服务器IP地址 （本机模拟器使用）
